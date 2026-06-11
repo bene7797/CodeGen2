@@ -1,0 +1,38 @@
+name: i12_into_012
+description: "A simple todo app with local persistence."
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.1+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  cupertino_icons: ^1.0.8
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.0.3
+  freezed: ^3.2.5
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.12.0
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  sqflite: ^2.4.2+1
+  sqflite_common_ffi: ^2.3.5
+  uuid: ^4.5.1
+
+dev_dependencies:
+  build_runner: ^2.15.0
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^6.14.0
+  very_good_analysis: ^9.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg

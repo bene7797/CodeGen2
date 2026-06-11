@@ -1,0 +1,14 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    avoid_positional_boolean_parameters: false
+    flutter_style_todos: false
+    lines_longer_than_80_chars: false
+    prefer_interpolation_to_compose_strings: false
+    sort_constructors_first: false
+    use_string_buffers: false
+    no_default_cases: false
+
+formatter:
+  trailing_commas: preserve
