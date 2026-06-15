@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:i12_into_012/models/app_state.dart';
 
-import 'package:i12_into_012/providers/local_json_notifier.dart';
+import 'package:i12_into_012/providers/sqfl_notifier.dart';
 
 final appStateProvider = NotifierProvider<AppStateNotifier, AppState>(() {
-  return LocalJsonNotifier();
+  return SqflNotifier();
 });
 
 /// Öffentliche API für UI und Storage-Implementierungen.

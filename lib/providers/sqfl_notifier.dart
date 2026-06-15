@@ -4,6 +4,8 @@ import 'package:i12_into_012/providers/app_state_provider.dart';
 import 'package:i12_into_012/providers/providers.dart';
 
 class SqflNotifier extends AppStateNotifier {
+  var _isLoading = true;
+
   @override
   AppState build() {
     _loadState();
@@ -13,18 +15,21 @@ class SqflNotifier extends AppStateNotifier {
   Future<void> _loadState() async {
     try {
       final appState = await ref.read(databaseServiceProvider).loadAppState();
-      if (state.todos.isEmpty) {
+      if (_isLoading) {
         state = appState;
       }
-
-      ///Wird ignoriert weil ich on clause nicht kenne
-      // ignore: empty_catches, avoid_catches_without_on_clauses
-    } catch (e) {}
+    } catch (e) {
+      // Fehler beim Laden: Startzustand beibehalten
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @override
   void addTodo(String text) {
     if (text.trim().isEmpty) return;
+
+    _isLoading = false;
 
     final newTodo = Todo(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -88,10 +93,9 @@ class SqflNotifier extends AppStateNotifier {
 
     try {
       await ref.read(databaseServiceProvider).deleteTodos(idsToDelete);
-
-      ///Wird ignoriert weil ich on clause nicht kenne
-      // ignore: empty_catches, avoid_catches_without_on_clauses
-    } catch (e) {}
+    } catch (e) {
+      // Fehler beim Löschen: UI-Zustand bleibt, DB evtl. inkonsistent
+    }
   }
 
   @override
@@ -108,23 +112,19 @@ class SqflNotifier extends AppStateNotifier {
       } else {
         await db.updateTodo(todo);
       }
-
-      ///Wird ignoriert weil ich on clause nicht kenne
-      // ignore: empty_catches, avoid_catches_without_on_clauses
-    } catch (e) {}
+    } catch (e) {
+      // Fehler beim Speichern
+    }
   }
 
   Future<void> _persistSettings() async {
     try {
-      await ref
-          .read(databaseServiceProvider)
-          .saveSettings(
+      await ref.read(databaseServiceProvider).saveSettings(
             isDarkMode: state.isDarkMode,
             asksForDeletionConfirmation: state.asksForDeletionConfirmation,
           );
-
-      ///Wird ignoriert weil ich on clause nicht kenne
-      // ignore: empty_catches, avoid_catches_without_on_clauses
-    } catch (e) {}
+    } catch (e) {
+      // Fehler beim Speichern
+    }
   }
 }

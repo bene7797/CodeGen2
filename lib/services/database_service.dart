@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:i12_into_012/models/app_state.dart';
 import 'package:i12_into_012/models/todo.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// SQLite-Speicher für Todos und App-Einstellungen.
@@ -21,6 +24,11 @@ class DatabaseService {
   }
 
   Future<String> get _databasePath async {
+    if (Platform.isWindows || Platform.isLinux) {
+      final directory = await getApplicationDocumentsDirectory();
+      return join(directory.path, 'todo_app.db');
+    }
+
     final directory = await getDatabasesPath();
     return join(directory, 'todo_app.db');
   }
